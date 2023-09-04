@@ -1,9 +1,10 @@
-'use client'
+"use client";
 import ECommerce from "@/components/Dashboard/E-commerce";
-import Login from "./(auth)/login/page";
 import { useEffect } from "react";
+import { useRouter } from 'next/navigation'
 
 export default function Home() {
+  const router = useRouter()
   useEffect(() => {
     // Tokenni olish
     const token = localStorage.getItem("token");
@@ -11,7 +12,7 @@ export default function Home() {
     // Token mavjudligini tekshirish
     if (!token) {
       // Agar token mavjud bo'lmasa, login sahifasiga qaytish
-      window.location.href = '/login'
+      router.push('/login')
     }
   }, []);
 

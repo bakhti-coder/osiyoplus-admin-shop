@@ -1,9 +1,11 @@
 "use client";
 import axios from "axios";
 import Link from "next/link";
-import { useState, useContext } from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
+  const router = useRouter();
   const [errorMessage, setErrorMessage] = useState({
     type: "",
     message: "",
@@ -28,7 +30,7 @@ const Login = () => {
       .then((res) => {
         console.log(res);
         localStorage.setItem("token", res.data.token);
-        // window.location.href = "/";
+        router.push('/')
         SetSuccsesMessega({
           type: "succses",
           message: "Muvaffaqiyatli",
@@ -65,7 +67,7 @@ const Login = () => {
         </Link>
         <div className="w-full bg-black rounded-lg shadow-lg border md:mt-0 sm:max-w-md xl:p-0">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight md:text-2xl dark:text-white">
+            <h1 className="text-xl font-bold leading-tight tracking-tight md:text-2xl text-white">
               Login
             </h1>
             <form
@@ -73,7 +75,7 @@ const Login = () => {
               onSubmit={(e) => handleLogin(e)}
             >
               <div>
-                <label className="block mb-2 text-sm font-medium  dark:text-white">
+                <label className="block mb-2 text-sm font-medium text-white">
                   Username
                 </label>
                 <input

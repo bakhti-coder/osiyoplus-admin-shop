@@ -5,8 +5,10 @@ import axios from "axios";
 import { Trash2, ClipboardEdit, X, Pointer } from "lucide-react";
 import { useEffect, useState } from "react";
 import ReactModal from "react-modal";
+import { useRouter } from "next/navigation";
 
 const FormLayout = () => {
+  const router = useRouter()
   // React Modal
   const [modalIsOpen, setIsOpen] = React.useState(false);
   function openModal() {
@@ -68,7 +70,8 @@ const FormLayout = () => {
           setTimeout(() => {
             setMessage(false);
           }, 3000);
-          window.location.reload();
+          router.refresh()
+
         });
     } catch (error) {
       console.log(error);

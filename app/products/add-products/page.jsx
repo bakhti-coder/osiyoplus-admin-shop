@@ -2,8 +2,10 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const FormElements = () => {
+  const router = useRouter()
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState();
   const [price, setPrice] = useState("");
@@ -45,7 +47,7 @@ const FormElements = () => {
           setTimeout(() => {
             setMessage(false);
           }, 5000);
-          window.location.reload();
+          router.refresh()
         });
     } catch (error) {
       setMessage(true);
