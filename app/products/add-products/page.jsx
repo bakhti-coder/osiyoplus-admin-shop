@@ -5,7 +5,19 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const FormElements = () => {
-  const router = useRouter()
+  const token = localStorage.getItem("token");
+  const router = useRouter();
+  useEffect(() => {
+    // Tokenni olish
+    const token = localStorage.getItem("token");
+
+    // Token mavjudligini tekshirish
+    if (!token) {
+      // Agar token mavjud bo'lmasa, login sahifasiga qaytish
+      router.push("/login");
+    }
+  }, [token]);
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState();
   const [price, setPrice] = useState("");
@@ -16,7 +28,7 @@ const FormElements = () => {
   useEffect(() => {
     const getCategory = () => {
       try {
-        axios.get("http://10.10.3.119:3333/get_category").then((res) => {
+        axios.get("http://10.10.1.205:3333/get_category").then((res) => {
           setGetCategorys(res.data);
           console.log(res.data);
         });
@@ -40,14 +52,14 @@ const FormElements = () => {
 
     try {
       axios
-        .post("http://10.10.3.119:3333/postproduct", formData)
+        .post("http://10.10.1.205:3333/postproduct", formData)
         .then((res) => {
           setMessage(true);
           console.log(res);
           setTimeout(() => {
             setMessage(false);
           }, 5000);
-          router.refresh()
+          router.refresh();
         });
     } catch (error) {
       setMessage(true);

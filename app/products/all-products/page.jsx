@@ -8,7 +8,18 @@ import ReactModal from "react-modal";
 import { useRouter } from "next/navigation";
 
 const FormLayout = () => {
-  const router = useRouter()
+  const token = localStorage.getItem("token");
+  const router = useRouter();
+  useEffect(() => {
+    // Tokenni olish
+    const token = localStorage.getItem("token");
+
+    // Token mavjudligini tekshirish
+    if (!token) {
+      // Agar token mavjud bo'lmasa, login sahifasiga qaytish
+      router.push("/login");
+    }
+  }, [token]);
   // React Modal
   const [modalIsOpen, setIsOpen] = React.useState(false);
   function openModal() {
@@ -26,8 +37,8 @@ const FormLayout = () => {
   const [changeDeck, setChangeDeck] = useState("");
   const [changeCategory, setChangeCategory] = useState("");
   const [changePrice, setChangePrice] = useState("");
-  const [changeImage, setChangeImage] = useState()
-  const [ image, setImage ] = useState()
+  const [changeImage, setChangeImage] = useState();
+  const [image, setImage] = useState();
 
   // Product data
   const [data, setData] = useState([]);
@@ -42,7 +53,7 @@ const FormLayout = () => {
     const id = currentMahsulot?.pro_id;
     const formData = new FormData();
     const { file_img } = e.target.elements;
-    setImage(file_img.files[0])
+    setImage(file_img.files[0]);
     formData.append("pro_name", changeName);
     formData.append("pro_description", changeDeck);
     formData.append("pro_price", changePrice);
@@ -50,10 +61,10 @@ const FormLayout = () => {
     formData.append("pro_img", file_img.files[0]);
     try {
       axios
-        .put(`http://10.10.3.119:3333/putproduct/${id}`, formData)
+        .put(`http://10.10.1.205:3333/putproduct/${id}`, formData)
         .then((res) => {
           console.log(res);
-          window.location.reload();
+          router.refresh()
         });
     } catch (error) {
       alert("Serverda xatolik yuz berdi");
@@ -64,14 +75,13 @@ const FormLayout = () => {
   const deleteProduct = (id) => {
     try {
       axios
-        .delete("http://10.10.3.119:3333/deleteproduct/" + id)
+        .delete("http://10.10.1.205:3333/deleteproduct/" + id)
         .then((res) => {
           setMessage(true);
           setTimeout(() => {
             setMessage(false);
           }, 3000);
-          router.refresh()
-
+          router.refresh();
         });
     } catch (error) {
       console.log(error);
@@ -82,7 +92,7 @@ const FormLayout = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const { data } = await axios.get("http://10.10.3.119:3333/getproduct");
+        const { data } = await axios.get("http://10.10.1.205:3333/getproduct");
         setData(data);
       } catch (error) {
         alert("Serverda xatolik yuz berdi :(");
@@ -100,7 +110,7 @@ const FormLayout = () => {
       setChangeDeck(currentMahsulot.pro_description);
       setChangePrice(currentMahsulot.pro_price);
       setChangeCategory(currentMahsulot.category_id);
-      setChangeImage(currentMahsulot.pro_img)
+      setChangeImage(currentMahsulot.pro_img);
       console.log(currentMahsulot.pro_img);
     }
   }, [currentMahsulot]);
@@ -109,7 +119,7 @@ const FormLayout = () => {
   useEffect(() => {
     const getCategory = () => {
       try {
-        axios.get("http://10.10.3.119:3333/get_category").then((res) => {
+        axios.get("http://10.10.1.205:3333/get_category").then((res) => {
           setGetCategorys(res.data);
         });
       } catch (error) {
@@ -201,7 +211,7 @@ const FormLayout = () => {
           <div className="mt-5">
             <label className="mb-2 block text-white">Mahsulot rasmi</label>
             <input
-              onChange={e => setChangeImage(e.target.files)}
+              onChange={(e) => setChangeImage(e.target.files)}
               type="file"
               name="file_img"
               className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-white"
@@ -252,7 +262,7 @@ const FormLayout = () => {
               >
                 <img
                   className="p-5 hover:scale-105 transition duration-500 cursor-pointer -z-30"
-                  src={`http://10.10.3.119:3333${el.pro_img}`}
+                  src={`http://10.10.1.205:3333${el.pro_img}`}
                   alt="product image"
                 />
                 <h1 className="px-5 pb-2 text-xl text-black font-semibold tracking-tight dark:text-white">
