@@ -110,7 +110,7 @@ const FormLayout = () => {
       setChangeDeck(currentMahsulot.pro_description);
       setChangePrice(currentMahsulot.pro_price);
       setChangeCategory(currentMahsulot.category_id);
-      setChangeImage(currentMahsulot.pro_img);
+      setChangeImage(`${currentMahsulot.pro_img}`);
       console.log(currentMahsulot.pro_img);
     }
   }, [currentMahsulot]);

@@ -21,7 +21,7 @@ const Login = () => {
     const { username, password } = e.target.elements;
 
     axios
-      .post("https://fakestoreapi.com/auth/login", {
+      .post("http://10.10.1.205:3333/login_admin", {
         username: username.value, // mor_2314
         password: password.value, // 83r5^_
         headers: {
@@ -29,7 +29,6 @@ const Login = () => {
         },
       })
       .then((res) => {
-        console.log(res);
         localStorage.setItem("token", res.data.token);
         window.location.href = "/";
         SetSuccsesMessega({
@@ -39,7 +38,6 @@ const Login = () => {
         setButtonLoader(false);
       })
       .catch((err) => {
-        console.log(err);
         setErrorMessage({
           type: "error",
           message: "Username yoki Parol xato",
@@ -126,7 +124,7 @@ const Login = () => {
                           fill="currentColor"
                         ></path>
                       </svg>
-                      Loading...
+                      Kirish
                     </button>
                   </div>
                 ) : (
