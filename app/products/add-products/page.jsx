@@ -28,7 +28,7 @@ const FormElements = () => {
   useEffect(() => {
     const getCategory = () => {
       try {
-        axios.get("http://10.10.1.205:3333/get_category").then((res) => {
+        axios.get("http://172.20.10.3:3333/get_category").then((res) => {
           setGetCategorys(res.data);
           console.log(res.data);
         });
@@ -52,14 +52,14 @@ const FormElements = () => {
 
     try {
       axios
-        .post("http://10.10.1.205:3333/postproduct", formData)
+        .post("http://172.20.10.3:3333/postproduct", formData)
         .then((res) => {
           setMessage(true);
           console.log(res);
           setTimeout(() => {
             setMessage(false);
           }, 5000);
-          router.refresh();
+          window.location.reload();
         });
     } catch (error) {
       setMessage(true);

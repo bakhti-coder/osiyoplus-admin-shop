@@ -61,10 +61,10 @@ const FormLayout = () => {
     formData.append("pro_img", file_img.files[0]);
     try {
       axios
-        .put(`http://10.10.1.205:3333/putproduct/${id}`, formData)
+        .put(`http://172.20.10.3:3333/putproduct/${id}`, formData)
         .then((res) => {
           console.log(res);
-          router.refresh()
+          window.location.reload()
         });
     } catch (error) {
       alert("Serverda xatolik yuz berdi");
@@ -75,13 +75,13 @@ const FormLayout = () => {
   const deleteProduct = (id) => {
     try {
       axios
-        .delete("http://10.10.1.205:3333/deleteproduct/" + id)
+        .delete("http://172.20.10.3:3333/deleteproduct/" + id)
         .then((res) => {
           setMessage(true);
           setTimeout(() => {
             setMessage(false);
           }, 3000);
-          router.refresh();
+          window.location.reload();
         });
     } catch (error) {
       console.log(error);
@@ -92,7 +92,7 @@ const FormLayout = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const { data } = await axios.get("http://10.10.1.205:3333/getproduct");
+        const { data } = await axios.get("http://172.20.10.3:3333/getproduct");
         setData(data);
       } catch (error) {
         alert("Serverda xatolik yuz berdi :(");
@@ -119,7 +119,7 @@ const FormLayout = () => {
   useEffect(() => {
     const getCategory = () => {
       try {
-        axios.get("http://10.10.1.205:3333/get_category").then((res) => {
+        axios.get("http://172.20.10.3:3333/get_category").then((res) => {
           setGetCategorys(res.data);
         });
       } catch (error) {
@@ -258,11 +258,11 @@ const FormLayout = () => {
           : data.map((el, indx) => (
               <div
                 key={indx}
-                className="bg-white border border-gray-200 rounded-lg shadow-lg max-w-[400px] sm:max-w-full mx-auto dark:bg-bgGrays dark:border-grayBorder"
+                className="bg-white border w-full h-full border-gray-200 rounded-lg shadow-lg max-w-[400px] sm:max-w-full mx-auto dark:bg-bgGrays dark:border-grayBorder"
               >
                 <img
-                  className="p-5 hover:scale-105 transition duration-500 cursor-pointer -z-30"
-                  src={`http://10.10.1.205:3333${el.pro_img}`}
+                  className="p-5 hover:scale-105 transition duration-500 cursor-pointer -z-30 w-full object-cover"
+                  src={`http://172.20.10.3:3333${el.pro_img}`}
                   alt="product image"
                 />
                 <h1 className="px-5 pb-2 text-xl text-black font-semibold tracking-tight dark:text-white">
