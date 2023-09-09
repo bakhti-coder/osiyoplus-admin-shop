@@ -25,7 +25,7 @@ const AddCategory = () => {
     const { ct_name } = e.target.elements;
 
     axios
-      .post("http://172.20.10.3:3333/post_category", {
+      .post("http://localhost:3333/post_category", {
         category_name: ct_name.value,
       })
       .then((res) => {
@@ -61,7 +61,7 @@ const AddCategory = () => {
   useEffect(() => {
     const getCategory = () => {
       try {
-        axios.get("http://172.20.10.3:3333/get_category").then((res) => {
+        axios.get("http://localhost:3333/get_category").then((res) => {
           setGetCategorys(res.data);
         });
       } catch (error) {
@@ -80,7 +80,7 @@ const AddCategory = () => {
     const { new_ctg } = e.target.elements;
 
     axios
-      .put(`http://172.20.10.3:3333/update_category/${id}`, {
+      .put(`http://localhost:3333/update_category/${id}`, {
         category_name: new_ctg.value,
       })
       .then((res) => {
@@ -100,7 +100,7 @@ const AddCategory = () => {
   // Delete category
   const deleteCategory = (id) => {
     axios
-      .delete("http://172.20.10.3:3333/delete_category/" + id)
+      .delete("http://localhost:3333/delete_category/" + id)
       .then((res) => window.location.reload())
       .catch((err) => alert("Serverda xatolik yuz berdi"));
   };

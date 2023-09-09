@@ -3,6 +3,7 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { ArrowDown } from "lucide-react";
 
 const FormElements = () => {
   const token = localStorage.getItem("token");
@@ -24,11 +25,26 @@ const FormElements = () => {
   const [category, setCategory] = useState();
   const [message, setMessage] = useState(false);
   const [getCategorys, setGetCategorys] = useState([]);
+  const [number, setNumber] = useState("");
+  const formatNumberWithSpaces = (value) => {
+    // Remove non-digit characters
+    const cleanValue = value.replace(/\D/g, "");
+
+    // Add spaces every three digits
+    const formattedValue = cleanValue.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ");
+
+    return formattedValue;
+  };
+  const handleInputChange = (e) => {
+    const inputValue = e.target.value;
+    const formattedValue = formatNumberWithSpaces(inputValue);
+    setNumber(formattedValue);
+  };
 
   useEffect(() => {
     const getCategory = () => {
       try {
-        axios.get("http://172.20.10.3:3333/get_category").then((res) => {
+        axios.get("http://localhost:3333/get_category").then((res) => {
           setGetCategorys(res.data);
           console.log(res.data);
         });
@@ -43,24 +59,22 @@ const FormElements = () => {
     e.preventDefault();
 
     const formData = new FormData();
-    const { file_img } = e.target.elements;
+    const { file_img, pr_price } = e.target.elements;
     formData.append("pro_name", title);
     formData.append("pro_description", description);
-    formData.append("pro_price", price);
+    formData.append("pro_price", pr_price.value);
     formData.append("category_id", category);
     formData.append("pro_img", file_img.files[0]);
 
     try {
-      axios
-        .post("http://172.20.10.3:3333/postproduct", formData)
-        .then((res) => {
-          setMessage(true);
-          console.log(res);
-          setTimeout(() => {
-            setMessage(false);
-          }, 5000);
-          window.location.reload();
-        });
+      axios.post("http://localhost:3333/postproduct", formData).then((res) => {
+        setMessage(true);
+        console.log(res);
+        setTimeout(() => {
+          setMessage(false);
+        }, 5000);
+        window.location.reload();
+      });
     } catch (error) {
       setMessage(true);
     }
@@ -115,7 +129,6 @@ const FormElements = () => {
             <input
               onChange={(e) => setTitle(e.target.value)}
               type="text"
-              placeholder="Krasofka"
               className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
               required
             />
@@ -130,6 +143,10 @@ const FormElements = () => {
               id="countries"
               className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
             >
+              <option>
+                <p>Categoriya tanlang ↓ </p>
+              </option>
+
               {getCategorys.map((el, indx) => (
                 <option
                   key={indx}
@@ -149,7 +166,6 @@ const FormElements = () => {
             <textarea
               onChange={(e) => setDescription(e.target.value)}
               rows={6}
-              placeholder="Erkaklar yozgi yengil to'rli krossovkalari"
               className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
               required
             ></textarea>
@@ -160,9 +176,15 @@ const FormElements = () => {
               Product price
             </label>
             <input
-              onChange={(e) => setPrice(e.target.value)}
+              // onChange={(e) => {
+              //   setPrice(e.target.value);
+              //   handleInputChange;
+              // }}
+              // value={value}
+              name="pr_price"
+              value={number}
+              onChange={handleInputChange}
               type="text"
-              placeholder="100$"
               className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
               required
             />
@@ -176,7 +198,7 @@ const FormElements = () => {
               type="file"
               name="file_img"
               className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent font-medium outline-none transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-stroke file:bg-whiter file:py-3 file:px-5 file:hover:bg-primary file:hover:bg-opacity-10 focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-form-strokedark dark:file:bg-white/30 dark:file:text-white dark:focus:border-primary"
-              // required
+              required
             />
           </div>
 

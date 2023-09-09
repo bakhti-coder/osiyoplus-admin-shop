@@ -23,6 +23,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/products/all-products/page.jsx", "app/products/add-products/page.jsx", "app/category-add/page.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/products/all-products/page.jsx", "app/products/add-products/page.jsx", "app/category-add/page.jsx", "components/Tables/TableTwo.jsx"],
   "exclude": ["node_modules"]
 }

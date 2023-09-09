@@ -61,7 +61,7 @@ const FormLayout = () => {
     formData.append("pro_img", file_img.files[0]);
     try {
       axios
-        .put(`http://172.20.10.3:3333/putproduct/${id}`, formData)
+        .put(`http://localhost:3333/putproduct/${id}`, formData)
         .then((res) => {
           console.log(res);
           window.location.reload()
@@ -75,7 +75,7 @@ const FormLayout = () => {
   const deleteProduct = (id) => {
     try {
       axios
-        .delete("http://172.20.10.3:3333/deleteproduct/" + id)
+        .delete("http://localhost:3333/deleteproduct/" + id)
         .then((res) => {
           setMessage(true);
           setTimeout(() => {
@@ -92,7 +92,7 @@ const FormLayout = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const { data } = await axios.get("http://172.20.10.3:3333/getproduct");
+        const { data } = await axios.get("http://localhost:3333/getproduct");
         setData(data);
       } catch (error) {
         alert("Serverda xatolik yuz berdi :(");
@@ -119,7 +119,7 @@ const FormLayout = () => {
   useEffect(() => {
     const getCategory = () => {
       try {
-        axios.get("http://172.20.10.3:3333/get_category").then((res) => {
+        axios.get("http://localhost:3333/get_category").then((res) => {
           setGetCategorys(res.data);
         });
       } catch (error) {
@@ -262,7 +262,7 @@ const FormLayout = () => {
               >
                 <img
                   className="p-5 hover:scale-105 transition duration-500 cursor-pointer -z-30 w-full object-cover"
-                  src={`http://172.20.10.3:3333${el.pro_img}`}
+                  src={`http://localhost:3333${el.pro_img}`}
                   alt="product image"
                 />
                 <h1 className="px-5 pb-2 text-xl text-black font-semibold tracking-tight dark:text-white">

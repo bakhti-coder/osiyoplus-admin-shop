@@ -55,7 +55,7 @@ module.exports = {
         success: "#219653",
         danger: "#D34053",
         warning: "#FFA70B",
-        error: '#ff3333'
+        error: "#ff3333",
       },
       fontSize: {
         "title-xxl": ["44px", "55px"],
@@ -254,6 +254,7 @@ module.exports = {
         primays: "rgb(37 99 235)",
         blue: "#3C50E0",
         bgGrays: "#1F2937",
+        bgGray: "rgb(75 85 99)",
         cards: {
           darkblue: "#1F2937",
         },
