@@ -201,7 +201,7 @@ const AddCategory = () => {
         </form>
       </ReactModal>
       <section>
-        <h1 className="text-2xl">Categorya qo'shish</h1>
+        <h1 className="text-2xl">{`Categorya qo'shish`}</h1>
         {message.type === "succses" && (
           <h1 className="my-2 text-success text-center font-semibold">
             {message.message}
@@ -249,7 +249,7 @@ const AddCategory = () => {
                     fill="currentColor"
                   ></path>
                 </svg>
-                Qo'shish
+                {`Qo'shish`}
               </button>
             ) : (
               <button
@@ -278,7 +278,7 @@ const AddCategory = () => {
               </tr>
             </thead>
             {getCategorys.map((el, i) => (
-              <tbody>
+              <tbody key={i}>
                 <tr className="bg-white border-b dark:bg-black dark:border-gray-700">
                   <th
                     scope="row"

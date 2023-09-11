@@ -91,8 +91,8 @@ const TableTwo = () => {
               <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
             </svg>
             <p className="pl-2">
-              Bu buyurtma sotildimi? Bu buyurtmani rostdan ham
-              o'chirmoqchimisiz?
+              {`Bu buyurtma sotildimi? Bu buyurtmani rostdan ham
+              o'chirmoqchimisiz?`}
             </p>
           </div>
           <div className="flex flex-col items-center">
@@ -126,7 +126,7 @@ const TableTwo = () => {
               onClick={(e) => handleBuyurtma()}
               className=" text-danger  text-sm "
             >
-              Buyurtmani O'chirish
+              {`Buyurtmani O'chirish`}
             </button>
           </div>
         </div>
@@ -184,7 +184,10 @@ const TableTwo = () => {
                     >
                       {buyurtma.order_name}
                     </th>
-                    <td className="px-6 py-4">{buyurtma.order_price}so'm</td>
+                    <td className="px-6 py-4">
+                      {buyurtma.order_price}
+                      {`so'm`}
+                    </td>
                     <td className="px-6 py-4">{buyurtma.user_name}</td>
                     <td className="px-6 py-4">{buyurtma.user_phone}</td>
                     <td className="px-6 py-4 text-center">
@@ -207,7 +210,7 @@ const TableTwo = () => {
                       }}
                       className="px-6 py-4 font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer"
                     >
-                      O'lib tashlash
+                      {` O'lib tashlash`}
                     </td>
                   </tr>
                 ))}

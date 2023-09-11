@@ -151,7 +151,7 @@ const FormLayout = () => {
         overlayClassName="modal-overlay"
       >
         <div className="flex justify-between items-center">
-          <h2 className="text-2xl text-white">Mahsulotlarni o'zgartirish</h2>
+          <h2 className="text-2xl text-white">{`Mahsulotlarni o'zgartirish`}</h2>
           <X
             color="red"
             className="cursor-pointer text-right"
