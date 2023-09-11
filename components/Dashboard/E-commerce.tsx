@@ -1,10 +1,7 @@
 "use client";
-import React from "react";
 import ChartOne from "../Charts/ChartOne";
 import ChartThree from "../Charts/ChartThree";
 import ChartTwo from "../Charts/ChartTwo";
-import ChatCard from "../Chat/ChatCard";
-import TableOne from "../Tables/TableOne";
 import CardDataStats from "../CardDataStats";
 // import Map from "../Maps/TestMap";
 
@@ -17,7 +14,6 @@ const MapOne = dynamic(() => import("../Maps/MapOne"), {
 const ECommerce: React.FC = () => {
   return (
     <>
-
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
         <CardDataStats title="Total views" total="$3.456K" rate="0.43%" levelUp>
           <svg
@@ -38,7 +34,7 @@ const ECommerce: React.FC = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Total Profit" total="$45,2K" rate="4.35%" levelUp>
+        <CardDataStats title="Total Profit" total="123$" rate="4.35%" levelUp>
           <svg
             className="fill-primary dark:fill-white"
             width="20"
@@ -110,10 +106,6 @@ const ECommerce: React.FC = () => {
         <ChartTwo />
         <ChartThree />
         <MapOne />
-        <div className="col-span-12 xl:col-span-8">
-          <TableOne />
-        </div>
-        <ChatCard />
       </div>
     </>
   );

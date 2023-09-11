@@ -1,4 +1,5 @@
 "use client";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ReactModal from "react-modal";
 
@@ -6,17 +7,36 @@ const TableTwo = () => {
   const [buyurtma, setBuyurtma] = useState();
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [alert, setAlert] = useState(false);
-  const [count, setCount] = useState(10);
+  const [loading, setLoading] = useState(false);
+  const [productDsc, setProductDsc] = useState();
+  const [orderId, setOrderId] = useState();
 
   // Order Product get
   useEffect(() => {
     async function getData() {
-      const res = await fetch(`http://localhost:3333/get_order`);
-      const product = await res.json();
-      setBuyurtma(product);
+      try {
+        const res = await fetch(`http://localhost:3333/get_order`);
+        const product = await res.json();
+        setLoading(true);
+        setBuyurtma(product);
+      } catch (error) {
+        alert("Serverda hatolik yuz berdi");
+      }
     }
     getData();
   }, []);
+
+  // Delete order product
+  async function handleBuyurtma() {
+    try {
+      const res = await axios.delete(
+        `http://localhost:3333/delete_order/${orderId}`
+      );
+      window.location.reload();
+    } catch (error) {
+      alert("Servera xatolik yuz berdi");
+    }
+  }
 
   function openModal() {
     setIsOpen(true);
@@ -51,14 +71,7 @@ const TableTwo = () => {
       >
         <div className="text-lg font-medium ">
           <h1 className="mt-5 text-2xl text-white pb-2">Mahsulot haqida</h1>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum
-            doloremque quia facere aperiam ipsa soluta totam id, dolor, est
-            iusto consequatur suscipit magnam delectus at illo, ipsum hic
-            necessitatibus in! Beatae porro quidem nobis ea consectetur ratione
-            doloribus expedita, asperiores hic qui ipsa autem assumenda
-            perferendis vero quia quis necessitatibus!
-          </p>
+          <p>{productDsc}</p>
         </div>
       </ReactModal>
       {alert ? (
@@ -84,7 +97,9 @@ const TableTwo = () => {
           </div>
           <div className="flex flex-col items-center">
             <button
-              onClick={(e) => setAlert(false)}
+              onClick={(e) => {
+                setAlert(false);
+              }}
               type="button"
               className="ml-auto bg-red-50 text-red-500 rounded-lg  focus:ring-red-400 hover:bg-red-200 inline-flex justify-end h-8 w-8 dark:bg-transparent dark:text-red-400 "
               data-dismiss-target="#alert-border-2"
@@ -100,14 +115,17 @@ const TableTwo = () => {
               >
                 <path
                   stroke="currentColor"
-                  stroke-linecap="round"
+                  strokeLinecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
                   d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                 />
               </svg>
             </button>
-            <button className=" text-white py-2 px-3 rounded-full hover:bg-red-800 bg-red-700">
+            <button
+              onClick={(e) => handleBuyurtma()}
+              className=" text-danger  text-sm "
+            >
               Buyurtmani O'chirish
             </button>
           </div>
@@ -145,42 +163,58 @@ const TableTwo = () => {
                 </th>
               </tr>
             </thead>
-            <tbody>
-              <tr className=" border-b dark:bg-black dark:border-grayBorder  ">
-                <td className="w-25 p-2">
-                  <div className="flex items-center">
-                    <img src="images/product/product-04.png" alt="Image" />
-                  </div>
-                </td>
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                >
-                  Apple MacBook Pro 17"
-                </th>
-                <td className="px-6 py-4">200$</td>
-                <td className="px-6 py-4">Sherzod</td>
-                <td className="px-6 py-4">+998940137300</td>
-                <td className="px-6 py-4 text-center">
-                  12.02.2023 <br />
-                  <span className="text-center">19:00</span>
-                </td>
-                <td
-                  onClick={(e) => {
-                    openModal();
-                  }}
-                  className="px-6 py-4 font-medium text-blue-700 dark:text-blue-700 hover:underline cursor-pointer"
-                >
-                  Mahsulot haqida
-                </td>
-                <td
-                  onClick={(e) => setAlert(true)}
-                  className="px-6 py-4 font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer"
-                >
-                  O'lib tashlash
-                </td>
-              </tr>
-            </tbody>
+            {loading ? (
+              <tbody>
+                {buyurtma.map((buyurtma, idx) => (
+                  <tr
+                    key={idx}
+                    className=" border-b dark:bg-black dark:border-grayBorder  "
+                  >
+                    <td className="w-25 p-2">
+                      <div className="flex items-center">
+                        <img
+                          src={`http://localhost:3333${buyurtma.order_img}`}
+                          alt="Image"
+                        />
+                      </div>
+                    </td>
+                    <th
+                      scope="row"
+                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    >
+                      {buyurtma.order_name}
+                    </th>
+                    <td className="px-6 py-4">{buyurtma.order_price}so'm</td>
+                    <td className="px-6 py-4">{buyurtma.user_name}</td>
+                    <td className="px-6 py-4">{buyurtma.user_phone}</td>
+                    <td className="px-6 py-4 text-center">
+                      {buyurtma.add_date.split("T")[0]}
+                      <br />
+                    </td>
+                    <td
+                      onClick={(e) => {
+                        openModal();
+                        setProductDsc(buyurtma.order_description);
+                      }}
+                      className="px-6 py-4 font-medium text-blue-700 dark:text-blue-700 hover:underline cursor-pointer"
+                    >
+                      Mahsulot haqida
+                    </td>
+                    <td
+                      onClick={(e) => {
+                        setAlert(true);
+                        setOrderId(buyurtma.order_id);
+                      }}
+                      className="px-6 py-4 font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer"
+                    >
+                      O'lib tashlash
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            ) : (
+              ""
+            )}
           </table>
         </div>
       </section>

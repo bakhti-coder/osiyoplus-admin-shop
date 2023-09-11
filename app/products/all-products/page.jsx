@@ -20,6 +20,7 @@ const FormLayout = () => {
       router.push("/login");
     }
   }, [token]);
+
   // React Modal
   const [modalIsOpen, setIsOpen] = React.useState(false);
   function openModal() {
@@ -46,6 +47,7 @@ const FormLayout = () => {
   const [message, setMessage] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [getCategorys, setGetCategorys] = useState([]);
+  const [search, setSearch] = useState("");
 
   const editProduct = (e) => {
     e.preventDefault();
@@ -53,7 +55,6 @@ const FormLayout = () => {
     const id = currentMahsulot?.pro_id;
     const formData = new FormData();
     const { file_img } = e.target.elements;
-    setImage(file_img.files[0]);
     formData.append("pro_name", changeName);
     formData.append("pro_description", changeDeck);
     formData.append("pro_price", changePrice);
@@ -63,29 +64,29 @@ const FormLayout = () => {
       axios
         .put(`http://localhost:3333/putproduct/${id}`, formData)
         .then((res) => {
-          console.log(res);
-          window.location.reload()
+          window.location.reload();
         });
     } catch (error) {
       alert("Serverda xatolik yuz berdi");
     }
   };
 
+  const handleImageChange = (e) => {
+    console.log(e);
+    // setImage(e.target.files[0]);
+  };
+
   // Delete prodct
   const deleteProduct = (id) => {
     try {
-      axios
-        .delete("http://localhost:3333/deleteproduct/" + id)
-        .then((res) => {
-          setMessage(true);
-          setTimeout(() => {
-            setMessage(false);
-          }, 3000);
-          window.location.reload();
-        });
-    } catch (error) {
-      console.log(error);
-    }
+      axios.delete("http://localhost:3333/deleteproduct/" + id).then((res) => {
+        setMessage(true);
+        setTimeout(() => {
+          setMessage(false);
+        }, 3000);
+        window.location.reload();
+      });
+    } catch (error) {}
   };
 
   // Get Products
@@ -109,9 +110,8 @@ const FormLayout = () => {
       setChangeName(currentMahsulot.pro_name);
       setChangeDeck(currentMahsulot.pro_description);
       setChangePrice(currentMahsulot.pro_price);
-      setChangeCategory(currentMahsulot.category_id);
-      setChangeImage(`${currentMahsulot.pro_img}`);
-      console.log(currentMahsulot.pro_img);
+      // setChangeCategory(currentMahsulot.category_name);
+      console.log(currentMahsulot);
     }
   }, [currentMahsulot]);
 
@@ -197,6 +197,7 @@ const FormLayout = () => {
               id="countries"
               className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
             >
+              <option>{`Categoriyasini kiriting↓`}</option>
               {getCategorys.map((el, indx) => (
                 <option
                   key={indx}
@@ -211,7 +212,7 @@ const FormLayout = () => {
           <div className="mt-5">
             <label className="mb-2 block text-white">Mahsulot rasmi</label>
             <input
-              onChange={(e) => setChangeImage(e.target.files)}
+              onChange={handleImageChange}
               type="file"
               name="file_img"
               className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-white"
@@ -240,7 +241,7 @@ const FormLayout = () => {
           >
             <path
               stroke="currentColor"
-              stroke-linecap="round"
+              strokeLinecap="round"
               stroke-linejoin="round"
               stroke-width="2"
               d="m9 17 8 2L9 1 1 19l8-2Zm0 0V9"
@@ -252,54 +253,70 @@ const FormLayout = () => {
         ""
       )}
       <Breadcrumb pageName="Barcha mahsulotlar" />
+      <form className="my-10">
+        <div className="mt-5">
+          <label className="mb-2 block text-white">Mahsulot qidirish</label>
+          <input
+            onChange={(e) => setSearch(e.target.value)}
+            type="search"
+            placeholder="Search..."
+            className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2.5 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-white"
+          />
+        </div>
+      </form>
       <div className="grid grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3">
         {isLoading
           ? "Mahsulotlar yuklanmoqda..."
-          : data.map((el, indx) => (
-              <div
-                key={indx}
-                className="bg-white border w-full h-full border-gray-200 rounded-lg shadow-lg max-w-[400px] sm:max-w-full mx-auto dark:bg-bgGrays dark:border-grayBorder"
-              >
-                <img
-                  className="p-5 hover:scale-105 transition duration-500 cursor-pointer -z-30 w-full object-cover"
-                  src={`http://localhost:3333${el.pro_img}`}
-                  alt="product image"
-                />
-                <h1 className="px-5 pb-2 text-xl text-black font-semibold tracking-tight dark:text-white">
-                  {el.pro_name}
-                </h1>
-                <div className="px-5 pb-5">
-                  <p className="text-lg tracking-tight text-black dark:text-gray">
-                    {el.pro_description}
-                    <span className="text-yellow-400 text-md">
-                      (Erkaklar kiyimi)
-                    </span>{" "}
-                  </p>
-                  <div className="flex items-center justify-between mt-5">
-                    <span className="text-3xl font-bold text-gray-900 ">
-                      {el.pro_price}
-                    </span>
-                    <div className="cursor-pointer flex">
-                      <Trash2
-                        onClick={() => deleteProduct(el.pro_id)}
-                        color="red"
-                        className="mx-4"
-                      />
-                      <div>
-                        <button
-                          onClick={() => {
-                            setCurrentMahsulot(el);
-                            openModal();
-                          }}
-                        >
-                          <ClipboardEdit />
-                        </button>
+          : data
+              .filter((item) => {
+                return search.toLowerCase() === ""
+                  ? item
+                  : item.pro_name.toLowerCase().includes(search);
+              })
+              .map((el, indx) => (
+                <div
+                  key={indx}
+                  className="bg-white border w-full h-full border-gray-200 rounded-lg shadow-lg max-w-[400px] sm:max-w-full mx-auto dark:bg-bgGrays dark:border-grayBorder"
+                >
+                  <div className="h-90">
+                    <img
+                      className="p-5 h-full hover:scale-105 transition duration-500 cursor-pointer -z-30 w-full object-cover"
+                      src={`http://localhost:3333${el.pro_img}`}
+                      alt="product image"
+                    />
+                  </div>
+                  <h1 className="px-5 pb-2 text-xl text-black font-semibold tracking-tight dark:text-white">
+                    {el.pro_name}
+                  </h1>
+                  <div className="px-5 pb-5">
+                    <p className="text-lg tracking-tight text-black dark:text-gray">
+                      {el.pro_description}
+                    </p>
+                    <div className="flex items-center justify-between mt-5">
+                      <span className="text-3xl font-bold text-gray-900 ">
+                        {el.pro_price}
+                      </span>
+                      <div className="cursor-pointer flex">
+                        <Trash2
+                          onClick={() => deleteProduct(el.pro_id)}
+                          color="red"
+                          className="mx-4"
+                        />
+                        <div>
+                          <button
+                            onClick={() => {
+                              setCurrentMahsulot(el);
+                              openModal();
+                            }}
+                          >
+                            <ClipboardEdit />
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
       </div>
     </>
   );

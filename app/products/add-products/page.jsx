@@ -46,7 +46,6 @@ const FormElements = () => {
       try {
         axios.get("http://localhost:3333/get_category").then((res) => {
           setGetCategorys(res.data);
-          console.log(res.data);
         });
       } catch (error) {
         alert("Serverda xatolik yuz berdi :( ");
@@ -69,7 +68,6 @@ const FormElements = () => {
     try {
       axios.post("http://localhost:3333/postproduct", formData).then((res) => {
         setMessage(true);
-        console.log(res);
         setTimeout(() => {
           setMessage(false);
         }, 5000);
@@ -99,7 +97,7 @@ const FormElements = () => {
           >
             <path
               stroke="currentColor"
-              stroke-linecap="round"
+              strokeLinecap="round"
               stroke-linejoin="round"
               stroke-width="2"
               d="m9 17 8 2L9 1 1 19l8-2Zm0 0V9"
@@ -143,9 +141,7 @@ const FormElements = () => {
               id="countries"
               className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
             >
-              <option>
-                <p>Categoriya tanlang ↓ </p>
-              </option>
+              <option>Categoriya tanlang ↓</option>
 
               {getCategorys.map((el, indx) => (
                 <option
@@ -177,7 +173,7 @@ const FormElements = () => {
             </label>
             <input
               // onChange={(e) => {
-              //   setPrice(e.target.value);
+              //   setPrice(e.target.value);F
               //   handleInputChange;
               // }}
               // value={value}

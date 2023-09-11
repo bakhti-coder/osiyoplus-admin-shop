@@ -1,9 +1,9 @@
 export default function Head() {
   return (
     <>
-      <title> Admin Panel | E-commerce Dashboard Tempalte </title>
+      <title> OsiyoPlus | Admin Panel </title>
       <meta content="width=device-width, initial-scale=1" name="viewport" />
-      <meta name="description" content="Built with Next.js and TypeScript" />
+      <meta name="description" content="Admin panel in osiyo-plus" />
       <link rel="icon" href="/images/favicon.ico" />
     </>
   );

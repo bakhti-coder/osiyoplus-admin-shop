@@ -6,6 +6,19 @@ import React, { useEffect, useState } from "react";
 import ReactModal from "react-modal";
 
 const AddCategory = () => {
+  const router = useRouter();
+  const token = localStorage.getItem("token");
+  useEffect(() => {
+    // Tokenni olish
+    const token = localStorage.getItem("token");
+
+    // Token mavjudligini tekshirish
+    if (!token) {
+      // Agar token mavjud bo'lmasa, login sahifasiga qaytish
+      router.push("/login");
+    }
+  }, [token]);
+
   const [currentCategory, setCurrentCatogory] = useState("");
   const [categroyName, setCategoryName] = useState("");
   const [buttonLoader, setButtonLoader] = useState(false);
@@ -17,7 +30,6 @@ const AddCategory = () => {
   });
   const [getCategorys, setGetCategorys] = useState([]);
   const [editCategoryName, setEditCategoryName] = useState("");
-  const router = useRouter();
 
   // Send category
   const handleCategory = (e) => {
@@ -29,7 +41,6 @@ const AddCategory = () => {
         category_name: ct_name.value,
       })
       .then((res) => {
-        console.log(res);
         setButtonLoader(false);
         setMessage({
           type: "succses",
@@ -88,7 +99,6 @@ const AddCategory = () => {
         setButtonLoader2(false);
       })
       .catch((err) => {
-        console.log(err);
         alert("Severda xatolik yuz berdi");
         setButtonLoader2(true);
       }).finally;
