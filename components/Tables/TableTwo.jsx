@@ -15,7 +15,7 @@ const TableTwo = () => {
   useEffect(() => {
     async function getData() {
       try {
-        const res = await fetch(`http://localhost:3333/get_order`);
+        const res = await fetch(`http://localhost:1010/get_order`);
         const product = await res.json();
         setLoading(true);
         setBuyurtma(product);
@@ -30,7 +30,7 @@ const TableTwo = () => {
   async function handleBuyurtma() {
     try {
       const res = await axios.delete(
-        `http://localhost:3333/delete_order/${orderId}`
+        `http://localhost:1010/delete_order/${orderId}`
       );
       window.location.reload();
     } catch (error) {
@@ -173,7 +173,7 @@ const TableTwo = () => {
                     <td className="w-25 p-2">
                       <div className="flex items-center">
                         <img
-                          src={`http://localhost:3333${buyurtma.order_img}`}
+                          src={`http://localhost:1010${buyurtma.order_img}`}
                           alt="Image"
                         />
                       </div>

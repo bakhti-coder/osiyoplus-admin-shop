@@ -44,7 +44,7 @@ const FormElements = () => {
   useEffect(() => {
     const getCategory = () => {
       try {
-        axios.get("http://localhost:3333/get_category").then((res) => {
+        axios.get("http://localhost:1010/get_category").then((res) => {
           setGetCategorys(res.data);
         });
       } catch (error) {
@@ -66,13 +66,15 @@ const FormElements = () => {
     formData.append("pro_img", file_img.files[0]);
 
     try {
-      axios.post("http://localhost:3333/postproduct", formData).then((res) => {
-        setMessage(true);
-        setTimeout(() => {
-          setMessage(false);
-        }, 5000);
-        window.location.reload();
-      });
+      axios
+        .post("http://localhost:1010/post_pro", formData)
+        .then((res) => {
+          setMessage(true);
+          setTimeout(() => {
+            setMessage(false);
+          }, 5000);
+          window.location.reload();
+        });
     } catch (error) {
       setMessage(true);
     }

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 const Login = () => {
+  const tokens = localStorage.getItem("token");
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState({
     type: "",
@@ -15,20 +16,19 @@ const Login = () => {
     message: "",
   });
   const [buttonLoader, setButtonLoader] = useState(false);
+  const [token, setToken] = useState("");
 
   const handleLogin = (e: any) => {
     e.preventDefault();
     const { username, password } = e.target.elements;
 
     axios
-      .post("http://localhost:3333/login_admin", {
-        username: username.value, // mor_2314
-        password: password.value, // 83r5^_
-        headers: {
-          "Content-Type": "appliaction/json",
-        },
+      .post("http://localhost:1010/login_admin", {
+        company_email: username.value,
+        password: password.value,
       })
       .then((res) => {
+        setToken(res.data.token);
         localStorage.setItem("token", res.data.token);
         window.location.href = "/";
         SetSuccsesMessega({
