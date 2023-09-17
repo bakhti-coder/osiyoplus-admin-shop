@@ -23,7 +23,7 @@ const Login = () => {
     const { username, password } = e.target.elements;
 
     axios
-      .post("http://localhost:1010/login_admin", {
+      .post("http://localhost:3333/login_admin", {
         company_email: username.value,
         password: password.value,
       })
