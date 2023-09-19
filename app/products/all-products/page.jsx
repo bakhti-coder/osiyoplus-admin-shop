@@ -62,7 +62,7 @@ const FormLayout = () => {
     formData.append("pro_img", file_img.files[0]);
     try {
       axios
-        .put(`http://localhost:3333/putproduct/${id}`, formData)
+        .put(`http://localhost:1010/putproduct/${id}`, formData)
         .then((res) => {
           window.location.reload();
         });
@@ -78,7 +78,7 @@ const FormLayout = () => {
   // Delete prodct
   const deleteProduct = (id) => {
     try {
-      axios.delete("http://localhost:3333/deleteproduct/" + id).then((res) => {
+      axios.delete("http://localhost:1010/deleteproduct/" + id).then((res) => {
         setMessage(true);
         setTimeout(() => {
           setMessage(false);
@@ -92,7 +92,7 @@ const FormLayout = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const { data } = await axios.get("http://localhost:3333/getproduct");
+        const { data } = await axios.get("http://localhost:1010/getproduct");
         setData(data);
       } catch (error) {
         alert("Serverda xatolik yuz berdi :(");
@@ -117,7 +117,7 @@ const FormLayout = () => {
   useEffect(() => {
     const getCategory = () => {
       try {
-        axios.get("http://localhost:3333/get_category").then((res) => {
+        axios.get("http://localhost:1010/get_category").then((res) => {
           setGetCategorys(res.data);
         });
       } catch (error) {
@@ -279,7 +279,7 @@ const FormLayout = () => {
                   <div className="h-90">
                     <img
                       className="p-5 h-full hover:scale-105 transition duration-500 cursor-pointer -z-30 w-full object-cover"
-                      src={`http://localhost:3333${el.pro_img}`}
+                      src={`http://localhost:1010${el.pro_img}`}
                       alt="product image"
                     />
                   </div>

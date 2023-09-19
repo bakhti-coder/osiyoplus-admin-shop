@@ -44,7 +44,7 @@ const FormElements = () => {
   useEffect(() => {
     const getCategory = () => {
       try {
-        axios.get("http://localhost:3333/get_category").then((res) => {
+        axios.get("http://localhost:1010/get_category").then((res) => {
           setGetCategorys(res.data);
         });
       } catch (error) {
@@ -67,7 +67,7 @@ const FormElements = () => {
 
     try {
       axios
-        .post("http://localhost:3333/post_pro", formData)
+        .post("http://localhost:1010/post_pro", formData)
         .then((res) => {
           setMessage(true);
           setTimeout(() => {
