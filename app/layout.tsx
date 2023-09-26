@@ -17,16 +17,16 @@ export default function RootLayout({
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(true);
-  // const router = useRouter();
-  // useEffect(() => {
-  //   const isLocalStorageAvailable = typeof localStorage !== "undefined";
-  //   const token = isLocalStorageAvailable
-  //     ? localStorage.getItem("token")
-  //     : null;
-  //   if (!token) {
-  //     router.push("/login");
-  //   }
-  // }, [router]);
+  const router = useRouter();
+  useEffect(() => {
+    const isLocalStorageAvailable = typeof localStorage !== "undefined";
+    const token = isLocalStorageAvailable
+      ? localStorage.getItem("token")
+      : null;
+    if (!token) {
+      router.push("/login");
+    }
+  }, [router]);
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000);
