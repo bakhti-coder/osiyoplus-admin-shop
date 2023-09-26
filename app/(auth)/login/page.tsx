@@ -20,11 +20,11 @@ const Login = () => {
 
   const handleLogin = (e: any) => {
     e.preventDefault();
-    const { username, password } = e.target.elements;
+    const { company_email, password } = e.target.elements;
 
     axios
       .post("http://localhost:1010/login_admin", {
-        company_email: username.value,
+        company_email: company_email.value,
         password: password.value,
       })
       .then((res) => {
@@ -80,11 +80,11 @@ const Login = () => {
             >
               <div>
                 <label className="block mb-2 text-sm font-medium text-white">
-                  Username
+                  Company Email
                 </label>
                 <input
-                  type="text"
-                  name="username"
+                  type="email"
+                  name="company_email"
                   className="border border-gray text-graydark font-semibold sm:text-sm rounded-lg  block w-full p-2.5 "
                   required
                 />
