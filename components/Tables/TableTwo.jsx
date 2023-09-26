@@ -210,7 +210,7 @@ const TableTwo = () => {
                       }}
                       className="px-6 py-4 font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer"
                     >
-                      {` O'lib tashlash`}
+                      {` Olib tashlash`}
                     </td>
                   </tr>
                 ))}

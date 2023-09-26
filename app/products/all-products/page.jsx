@@ -6,6 +6,8 @@ import { Trash2, ClipboardEdit, X, Pointer } from "lucide-react";
 import { useEffect, useState } from "react";
 import ReactModal from "react-modal";
 import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const FormLayout = () => {
   const token = localStorage.getItem("token");
@@ -66,9 +68,7 @@ const FormLayout = () => {
         .then((res) => {
           window.location.reload();
         });
-    } catch (error) {
-      alert("Serverda xatolik yuz berdi");
-    }
+    } catch (error) {}
   };
 
   const handleImageChange = (e) => {
@@ -82,10 +82,13 @@ const FormLayout = () => {
         setMessage(true);
         setTimeout(() => {
           setMessage(false);
+          window.location.reload();
         }, 3000);
-        window.location.reload();
+        toast.success("Mahsulot o'chirildi");
       });
-    } catch (error) {}
+    } catch (e) {
+      toast.error("Tarmoqda xatolik yuz berdi");
+    }
   };
 
   // Get Products
@@ -129,6 +132,7 @@ const FormLayout = () => {
 
   return (
     <>
+      <ToastContainer position="top-center" autoClose={3000} theme="dark" />
       <ReactModal
         isOpen={modalIsOpen}
         onAfterOpen={afterOpenModal}

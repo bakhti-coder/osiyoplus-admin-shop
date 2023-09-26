@@ -8,6 +8,7 @@ import Loader from "@/components/common/Loader";
 
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
+import { useRouter } from "next/navigation";
 
 export default function RootLayout({
   children,
@@ -17,6 +18,18 @@ export default function RootLayout({
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const [loading, setLoading] = useState<boolean>(true);
+  const token = localStorage.getItem("token");
+  const router = useRouter();
+  useEffect(() => {
+    // Tokenni olish
+    const token = localStorage.getItem("token");
+
+    // Token mavjudligini tekshirish
+    if (!token) {
+      // Agar token mavjud bo'lmasa, login sahifasiga qaytish
+      router.push("/login");
+    }
+  }, [token]);
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000);
@@ -50,7 +63,6 @@ export default function RootLayout({
                 <main>
                   <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
                     {children}
-                    
                   </div>
                 </main>
                 {/* <!-- ===== Main Content End ===== --> */}

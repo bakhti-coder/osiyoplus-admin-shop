@@ -2,8 +2,8 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { ArrowDown } from "lucide-react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const FormElements = () => {
   const token = localStorage.getItem("token");
@@ -21,11 +21,11 @@ const FormElements = () => {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState();
-  const [price, setPrice] = useState("");
   const [category, setCategory] = useState();
   const [message, setMessage] = useState(false);
   const [getCategorys, setGetCategorys] = useState([]);
   const [number, setNumber] = useState("");
+
   const formatNumberWithSpaces = (value) => {
     // Remove non-digit characters
     const cleanValue = value.replace(/\D/g, "");
@@ -66,15 +66,14 @@ const FormElements = () => {
     formData.append("pro_img", file_img.files[0]);
 
     try {
-      axios
-        .post("http://localhost:1010/post_pro", formData)
-        .then((res) => {
-          setMessage(true);
-          setTimeout(() => {
-            setMessage(false);
-          }, 5000);
-          window.location.reload();
-        });
+      axios.post("http://localhost:1010/post_pro", formData).then((res) => {
+        setMessage(true);
+        setTimeout(() => {
+          setMessage(false);
+        }, 3000);
+        window.location.reload();
+        toast.success(`Mahsulot qo'shildi`);
+      });
     } catch (error) {
       setMessage(true);
     }
@@ -82,6 +81,18 @@ const FormElements = () => {
 
   return (
     <>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <Breadcrumb pageName="Mahsulot qo'shish" />
 
       {message ? (
