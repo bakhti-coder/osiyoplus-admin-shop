@@ -1,24 +1,12 @@
 "use client";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const FormElements = () => {
-  const token = localStorage.getItem("token");
-  const router = useRouter();
-  useEffect(() => {
-    // Tokenni olish
-    const token = localStorage.getItem("token");
-
-    // Token mavjudligini tekshirish
-    if (!token) {
-      // Agar token mavjud bo'lmasa, login sahifasiga qaytish
-      router.push("/login");
-    }
-  }, [token]);
-
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState();
   const [category, setCategory] = useState();

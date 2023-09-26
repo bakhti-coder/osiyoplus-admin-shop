@@ -1,24 +1,10 @@
 "use client";
 import axios from "axios";
 import { Pencil, Trash } from "lucide-react";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import ReactModal from "react-modal";
 
 const AddCategory = () => {
-  const router = useRouter();
-  const token = localStorage.getItem("token");
-  useEffect(() => {
-    // Tokenni olish
-    const token = localStorage.getItem("token");
-
-    // Token mavjudligini tekshirish
-    if (!token) {
-      // Agar token mavjud bo'lmasa, login sahifasiga qaytish
-      router.push("/login");
-    }
-  }, [token]);
-
   const [currentCategory, setCurrentCatogory] = useState("");
   const [categroyName, setCategoryName] = useState("");
   const [buttonLoader, setButtonLoader] = useState(false);

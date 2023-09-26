@@ -182,7 +182,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 pathname === "/" && "text-white"
                               } `}
                             >
-                              eCommerce
+                              Admin Panel
                             </Link>
                           </li>
                           {/* <li>

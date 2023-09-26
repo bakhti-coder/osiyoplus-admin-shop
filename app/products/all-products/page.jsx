@@ -1,29 +1,14 @@
 "use client";
 import React from "react";
+import { useEffect, useState } from "react";
+import { Trash2, ClipboardEdit, X } from "lucide-react";
+import { ToastContainer, toast } from "react-toastify";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import axios from "axios";
-import { Trash2, ClipboardEdit, X, Pointer } from "lucide-react";
-import { useEffect, useState } from "react";
 import ReactModal from "react-modal";
-import { useRouter } from "next/navigation";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const FormLayout = () => {
-  const token = localStorage.getItem("token");
-  const router = useRouter();
-  useEffect(() => {
-    // Tokenni olish
-    const token = localStorage.getItem("token");
-
-    // Token mavjudligini tekshirish
-    if (!token) {
-      // Agar token mavjud bo'lmasa, login sahifasiga qaytish
-      router.push("/login");
-    }
-  }, [token]);
-
-  // React Modal
   const [modalIsOpen, setIsOpen] = React.useState(false);
   function openModal() {
     setIsOpen(true);
@@ -40,8 +25,6 @@ const FormLayout = () => {
   const [changeDeck, setChangeDeck] = useState("");
   const [changeCategory, setChangeCategory] = useState("");
   const [changePrice, setChangePrice] = useState("");
-  const [changeImage, setChangeImage] = useState();
-  const [image, setImage] = useState();
 
   // Product data
   const [data, setData] = useState([]);
@@ -53,6 +36,11 @@ const FormLayout = () => {
 
   const editProduct = (e) => {
     e.preventDefault();
+
+    if (!changeCategory) {
+      toast.error("Iltimos mahsulotning categoriyasini kiriting");
+      return;
+    }
 
     const id = currentMahsulot?.pro_id;
     const formData = new FormData();
@@ -68,11 +56,9 @@ const FormLayout = () => {
         .then((res) => {
           window.location.reload();
         });
-    } catch (error) {}
-  };
-
-  const handleImageChange = (e) => {
-    // setImage(e.target.files[0]);
+    } catch (error) {
+      alert("Tarmoqda xatolik yuz berdi");
+    }
   };
 
   // Delete prodct
@@ -112,7 +98,6 @@ const FormLayout = () => {
       setChangeName(currentMahsulot.pro_name);
       setChangeDeck(currentMahsulot.pro_description);
       setChangePrice(currentMahsulot.pro_price);
-      // setChangeCategory(currentMahsulot.category_name);
     }
   }, [currentMahsulot]);
 
@@ -132,7 +117,6 @@ const FormLayout = () => {
 
   return (
     <>
-      <ToastContainer position="top-center" autoClose={3000} theme="dark" />
       <ReactModal
         isOpen={modalIsOpen}
         onAfterOpen={afterOpenModal}
@@ -152,6 +136,8 @@ const FormLayout = () => {
         contentLabel="Example Modal"
         overlayClassName="modal-overlay"
       >
+        <ToastContainer position="top-center" autoClose={3000} theme="dark" />
+
         <div className="flex justify-between items-center">
           <h2 className="text-2xl text-white">{`Mahsulotlarni o'zgartirish`}</h2>
           <X
@@ -199,7 +185,7 @@ const FormLayout = () => {
               id="countries"
               className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
             >
-              <option>{`Categoriyasini kiriting↓`}</option>
+              <option className="disabled">{`Categoriyasini kiriting↓`}</option>
               {getCategorys.map((el, indx) => (
                 <option
                   key={indx}
@@ -214,9 +200,9 @@ const FormLayout = () => {
           <div className="mt-5">
             <label className="mb-2 block text-white">Mahsulot rasmi</label>
             <input
-              onChange={handleImageChange}
               type="file"
               name="file_img"
+              required
               className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-white"
             />
           </div>

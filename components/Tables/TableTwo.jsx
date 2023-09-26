@@ -20,7 +20,7 @@ const TableTwo = () => {
         setLoading(true);
         setBuyurtma(product);
       } catch (error) {
-        alert("Serverda hatolik yuz berdi");
+        alert("Tarmoqda hatolik yuz berdi");
       }
     }
     getData();

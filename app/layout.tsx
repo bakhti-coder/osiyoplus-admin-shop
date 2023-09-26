@@ -16,20 +16,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
   const [loading, setLoading] = useState<boolean>(true);
-  const token = localStorage.getItem("token");
-  const router = useRouter();
-  useEffect(() => {
-    // Tokenni olish
-    const token = localStorage.getItem("token");
-
-    // Token mavjudligini tekshirish
-    if (!token) {
-      // Agar token mavjud bo'lmasa, login sahifasiga qaytish
-      router.push("/login");
-    }
-  }, [token]);
+  // const router = useRouter();
+  // useEffect(() => {
+  //   const isLocalStorageAvailable = typeof localStorage !== "undefined";
+  //   const token = isLocalStorageAvailable
+  //     ? localStorage.getItem("token")
+  //     : null;
+  //   if (!token) {
+  //     router.push("/login");
+  //   }
+  // }, [router]);
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000);
