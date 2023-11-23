@@ -1,10 +1,8 @@
 "use client";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import axios from "axios";
-import { useRouter } from "next/navigation";
+import request from "@/server";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const FormElements = () => {
   const [title, setTitle] = useState("");
@@ -23,6 +21,7 @@ const FormElements = () => {
 
     return formattedValue;
   };
+
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
     const formattedValue = formatNumberWithSpaces(inputValue);
@@ -32,7 +31,7 @@ const FormElements = () => {
   useEffect(() => {
     const getCategory = () => {
       try {
-        axios.get("http://localhost:1010/get_category").then((res) => {
+        request.get("http://localhost:1010/get_category").then((res) => {
           setGetCategorys(res.data);
         });
       } catch (error) {
@@ -54,7 +53,7 @@ const FormElements = () => {
     formData.append("pro_img", file_img.files[0]);
 
     try {
-      axios.post("http://localhost:1010/post_pro", formData).then((res) => {
+      request.post("http://localhost:1010/post_pro", formData).then((res) => {
         setMessage(true);
         setTimeout(() => {
           setMessage(false);

@@ -1,8 +1,8 @@
 "use client";
-import axios from "axios";
 import { Pencil, Trash } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import ReactModal from "react-modal";
+import request from "@/server";
 
 const AddCategory = () => {
   const [currentCategory, setCurrentCatogory] = useState("");
@@ -22,8 +22,8 @@ const AddCategory = () => {
     e.preventDefault();
     const { ct_name } = e.target.elements;
 
-    axios
-      .post("http://localhost:1010/post_category", {
+    request
+      .post("post_category", {
         category_name: ct_name.value,
       })
       .then((res) => {
@@ -58,7 +58,7 @@ const AddCategory = () => {
   useEffect(() => {
     const getCategory = () => {
       try {
-        axios.get("http://localhost:1010/get_category").then((res) => {
+        request.get("get_category").then((res) => {
           setGetCategorys(res.data);
         });
       } catch (error) {
@@ -76,8 +76,8 @@ const AddCategory = () => {
 
     const { new_ctg } = e.target.elements;
 
-    axios
-      .put(`http://localhost:1010/update_category/${id}`, {
+    request
+      .put(`update_category/${id}`, {
         category_name: new_ctg.value,
       })
       .then((res) => {
@@ -95,8 +95,8 @@ const AddCategory = () => {
 
   // Delete category
   const deleteCategory = (id) => {
-    axios
-      .delete("http://localhost:1010/delete_category/" + id)
+    request
+      .delete("delete_category/" + id)
       .then((res) => window.location.reload())
       .catch((err) => alert("Serverda xatolik yuz berdi"));
   };

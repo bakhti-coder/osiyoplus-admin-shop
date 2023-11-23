@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { Trash2, ClipboardEdit, X } from "lucide-react";
 import { ToastContainer, toast } from "react-toastify";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import axios from "axios";
 import ReactModal from "react-modal";
+import request from "@/server";
 import "react-toastify/dist/ReactToastify.css";
 
 const FormLayout = () => {
@@ -51,8 +51,8 @@ const FormLayout = () => {
     formData.append("category_id", changeCategory);
     formData.append("pro_img", file_img.files[0]);
     try {
-      axios
-        .put(`http://localhost:1010/putproduct/${id}`, formData)
+      request
+        .put(`putproduct/${id}`, formData)
         .then((res) => {
           window.location.reload();
         });
@@ -64,7 +64,7 @@ const FormLayout = () => {
   // Delete prodct
   const deleteProduct = (id) => {
     try {
-      axios.delete("http://localhost:1010/deleteproduct/" + id).then((res) => {
+      request.delete("deleteproduct/" + id).then((res) => {
         setMessage(true);
         setTimeout(() => {
           setMessage(false);
@@ -81,7 +81,7 @@ const FormLayout = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const { data } = await axios.get("http://localhost:1010/getproduct");
+        const { data } = await request.get("getproduct");
         setData(data);
       } catch (error) {
         alert("Serverda xatolik yuz berdi :(");
@@ -105,7 +105,7 @@ const FormLayout = () => {
   useEffect(() => {
     const getCategory = () => {
       try {
-        axios.get("http://localhost:1010/get_category").then((res) => {
+        request.get("get_category").then((res) => {
           setGetCategorys(res.data);
         });
       } catch (error) {

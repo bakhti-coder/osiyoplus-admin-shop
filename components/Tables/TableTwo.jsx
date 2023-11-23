@@ -1,5 +1,5 @@
 "use client";
-import axios from "axios";
+import request from "@/server";
 import React, { useEffect, useState } from "react";
 import ReactModal from "react-modal";
 
@@ -15,12 +15,11 @@ const TableTwo = () => {
   useEffect(() => {
     async function getData() {
       try {
-        const res = await fetch(`http://localhost:1010/get_order`);
-        const product = await res.json();
+        const {data} = await request.get(`get_order`);
         setLoading(true);
-        setBuyurtma(product);
+        setBuyurtma(data);
       } catch (error) {
-        alert("Tarmoqda hatolik yuz berdi");
+        // alert("Tarmoqda hatolik yuz berdi");
       }
     }
     getData();
@@ -29,8 +28,8 @@ const TableTwo = () => {
   // Delete order product
   async function handleBuyurtma() {
     try {
-      const res = await axios.delete(
-        `http://localhost:1010/delete_order/${orderId}`
+      const res = await request.delete(
+        `delete_order/${orderId}`
       );
       window.location.reload();
     } catch (error) {

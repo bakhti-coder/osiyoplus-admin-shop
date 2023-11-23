@@ -1,11 +1,12 @@
 "use client";
-import axios from "axios";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { TOKEN } from "@/constants";
+import request from "@/server";
 
 const Login = () => {
-  const tokens = localStorage.getItem("token");
+  const tokens = localStorage.getItem(TOKEN);
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState({
     type: "",
@@ -18,30 +19,31 @@ const Login = () => {
   const [buttonLoader, setButtonLoader] = useState(false);
   const [token, setToken] = useState("");
 
-  const handleLogin = (e: any) => {
+  const handleLogin = async (e: any) => {
     e.preventDefault();
     const { company_email, password } = e.target.elements;
 
-    axios
-      .post("http://localhost:1010/login_admin", {
+    await request.post("login_admin", {
         company_email: company_email.value,
         password: password.value,
       })
       .then((res) => {
         setToken(res.data.token);
-        localStorage.setItem("token", res.data.token);
+        localStorage.setItem(TOKEN, res.data.token);
         window.location.href = "/";
         SetSuccsesMessega({
           type: "succses",
           message: "Muvaffaqiyatli",
         });
         setButtonLoader(false);
+        console.log(res)
       })
       .catch((err) => {
         setErrorMessage({
           type: "error",
           message: "Username yoki Parol xato",
         });
+        console.log(err)
         setButtonLoader(false);
         setTimeout(() => {
           setErrorMessage({

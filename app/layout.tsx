@@ -1,14 +1,16 @@
 "use client";
 
-import "./globals.css";
-import "./data-tables-css.css";
-import "./satoshi.css";
 import { useState, useEffect } from "react";
-import Loader from "@/components/common/Loader";
+import { useRouter } from "next/navigation";
+import { TOKEN } from "@/constants";
 
+import Loader from "@/components/common/Loader";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
-import { useRouter } from "next/navigation";
+import "./data-tables-css.css";
+import "react-toastify/dist/ReactToastify.css";
+import "./satoshi.css";
+import "./globals.css";
 
 export default function RootLayout({
   children,
@@ -18,10 +20,11 @@ export default function RootLayout({
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
+
   useEffect(() => {
     const isLocalStorageAvailable = typeof localStorage !== "undefined";
     const token = isLocalStorageAvailable
-      ? localStorage.getItem("token")
+      ? localStorage.getItem(TOKEN)
       : null;
     if (!token) {
       router.push("/login");

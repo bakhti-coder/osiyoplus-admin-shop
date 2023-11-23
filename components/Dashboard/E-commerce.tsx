@@ -3,12 +3,9 @@ import ChartOne from "../Charts/ChartOne";
 import ChartThree from "../Charts/ChartThree";
 import ChartTwo from "../Charts/ChartTwo";
 import CardDataStats from "../CardDataStats";
-// import Map from "../Maps/TestMap";
-
-// without this the component renders on server and throws an error
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import request from "@/server";
 const MapOne = dynamic(() => import("../Maps/MapOne"), {
   ssr: false,
 });
@@ -21,10 +18,10 @@ const ECommerce: React.FC = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const { data } = await axios.get("http://localhost:1010/getproduct");
+        const { data } = await request.get("getproduct");
         setData(data);
       } catch (error) {
-        alert("Serverda xatolik yuz berdi :(");
+        // alert("Serverda xatolik yuz berdi :(");
       }
     };
     getData();
@@ -33,16 +30,17 @@ const ECommerce: React.FC = () => {
   useEffect(() => {
     async function getData() {
       try {
-        const res = await fetch(`http://localhost:1010/get_order`);
-        const product = await res.json();
-        setBuyurtma(product);
+        const {data} = await request.get(`get_order`);
+        console.log(data)
+        setBuyurtma(data);
       } catch (error) {
-        alert("Tarmoqda hatolik yuz berdi");
+        // alert("Tarmoqda hatolik yuz berdi");
       }
     }
     getData();
   }, []);
   return (
+    
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
         <CardDataStats

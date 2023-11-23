@@ -1,4 +1,6 @@
 // import "../global.css"
+import "react-toastify/dist/ReactToastify.css";
+
 
 export default function AuthLayout({
   children,
