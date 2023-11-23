@@ -17,7 +17,6 @@ const Login = () => {
     message: "",
   });
   const [buttonLoader, setButtonLoader] = useState(false);
-  const [token, setToken] = useState("");
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
@@ -28,7 +27,6 @@ const Login = () => {
         password: password.value,
       })
       .then((res) => {
-        setToken(res.data.token);
         localStorage.setItem(TOKEN, res.data.token);
         window.location.href = "/";
         SetSuccsesMessega({
